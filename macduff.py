@@ -389,7 +389,7 @@ def find_macbeth(img, patch_size=None, is_passport=False, debug=DEBUG,
         cv.drawContours(show_contours, contours, -1, (0, 255, 0))
         cv.imwrite('debug_all_contours.png', show_contours)
 
-    min_size = np.product(macbeth_img.shape[:2]) * min_relative_square_size
+    min_size = np.prod(macbeth_img.shape[:2]) * min_relative_square_size
 
     def is_seq_hole(c):
         return cv.contourArea(c, oriented=True) > 0
