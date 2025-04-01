@@ -33,7 +33,7 @@ MACBETH_HEIGHT = 4
 MACBETH_SQUARES = MACBETH_WIDTH * MACBETH_HEIGHT
 
 MAX_CONTOUR_APPROX = 50  # default was 7
-
+SCALE = 26.0/14.0-0.1  # default was 1.0
 
 # pick the colorchecker values to use -- several options available in
 # the `color_data` subdirectory
@@ -183,13 +183,21 @@ def find_colorchecker(boxes, image, debug_filename=None, use_patch_std=True,
         landscape_orientation = False
 
     average_size = int(sum(min(box.size) for box in boxes) / len(boxes))
-    if landscape_orientation:
-        dx = (tr - tl)/(MACBETH_WIDTH - 1)
-        dy = (bl - tl)/(MACBETH_HEIGHT - 1)
-    else:
-        dx = (bl - tl)/(MACBETH_WIDTH - 1)
-        dy = (tr - tl)/(MACBETH_HEIGHT - 1)
+    # 1) 4点の中心を計算
+    center = (tl + tr + br + bl) / 4.0
+    
+    tl = center + SCALE * (tl - center)
+    tr = center + SCALE * (tr - center)
+    br = center + SCALE * (br - center)
+    bl = center + SCALE * (bl - center)
 
+    # 3) landscape_orientation の判定をした上で改めて dx, dy を求める
+    if landscape_orientation:
+        dx = (tr - tl) / (MACBETH_WIDTH - 1)
+        dy = (bl - tl) / (MACBETH_HEIGHT - 1)
+    else:
+        dx = (bl - tl) / (MACBETH_WIDTH - 1)
+        dy = (tr - tl) / (MACBETH_HEIGHT - 1)
     # calculate the averages for our oriented colorchecker
     checker_dims = (MACBETH_HEIGHT, MACBETH_WIDTH)
     patch_values = np.empty(checker_dims + (3,), dtype='float32')
