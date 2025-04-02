@@ -33,7 +33,7 @@ MACBETH_HEIGHT = 4
 MACBETH_SQUARES = MACBETH_WIDTH * MACBETH_HEIGHT
 
 MAX_CONTOUR_APPROX = 50  # default was 7
-SCALE = 26.0/14.0-0.1  # default was 1.0
+SCALE = 1 # 26.0/14.0-0.1  # default was 1.0
 
 # pick the colorchecker values to use -- several options available in
 # the `color_data` subdirectory
